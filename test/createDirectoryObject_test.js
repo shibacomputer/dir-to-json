@@ -33,6 +33,10 @@ describe("createDirectoryObject", function(){
 			});
 		});
 
+		it("should return a mimetype", function( done ) {
+
+				// @TODO: Finish this test.
+		});
 	});
 
 	describe("directory", function(){
@@ -146,7 +150,7 @@ describe("createDirectoryObject", function(){
 
 				var subSubDir = subDir1.children[0];
 				expect( subSubDir.children.length ).to.equal( 0 );
-				
+
 				done();
 			});
 		});

@@ -3,6 +3,7 @@ var path = require('path');
 var Q = require('q');
 var stat = Q.denodeify( fs.stat.bind(fs) );
 var readdir = Q.denodeify( fs.readdir.bind(fs) );
+var mime = require('mime');
 
 var sortType = require('./options/sortType');
 
@@ -14,11 +15,11 @@ var createDirectoryObject = function( rootDir, fileName, options ){
 	options.sortType = typeof options.sortType !== "undefined" ? options.sortType : true;
 
 	var currentDir = path.normalize( rootDir + '/' + fileName );
-
 	var fileInfo = {
 		parent: path.relative( rootDir, path.dirname( currentDir ) ),
 		path: path.relative( "./" + rootDir, "./" + currentDir ),
-		name: path.basename( currentDir )
+		name: path.basename( currentDir ),
+		mime: mime.lookup(mime.lookup(path.relative( "./" + rootDir, "./" + currentDir )))
 	};
 
 	stat( currentDir )

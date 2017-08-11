@@ -4,7 +4,7 @@ var Q = require('q');
 var stat = Q.denodeify( fs.stat.bind(fs) );
 var readdir = Q.denodeify( fs.readdir.bind(fs) );
 var mime = require('mime');
-var hash = require('hash');
+var hash = require('string-hash');
 
 var sortType = require('./options/sortType');
 

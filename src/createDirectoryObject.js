@@ -8,7 +8,8 @@ var hash = require('string-hash');
 
 var sortType = require('./options/sortType');
 
-var createDirectoryObject = function( rootDir, fileName, options ){
+var createDirectoryObject = function( base, rootDir, fileName, options ){
+
 	var deferred = Q.defer();
 
 	// Set option defaults
@@ -16,8 +17,9 @@ var createDirectoryObject = function( rootDir, fileName, options ){
 	options.sortType = typeof options.sortType !== "undefined" ? options.sortType : true;
 
 	var currentDir = path.normalize( rootDir + '/' + fileName );
+	console.log(rootDir, currentDir)
 	var fileInfo = {
-		id: hash(path.relative( "./" + rootDir, "./" + currentDir ) ),
+		id: hash(base, path.relative( "./" + rootDir, "./" + currentDir ) ),
 		parent: path.relative( rootDir, path.dirname( currentDir ) ),
 		path: path.relative( "./" + rootDir, "./" + currentDir ),
 		name: path.basename( currentDir ),
@@ -46,7 +48,7 @@ var createDirectoryObject = function( rootDir, fileName, options ){
 		// Recursively examine directory's children
 		var promises = [];
 		files.forEach(function( newFileName ){
-			promises.push( createDirectoryObject( rootDir, fileName+'/'+newFileName, options ) );
+			promises.push( createDirectoryObject( fileInfo.id, rootDir, fileName+'/'+newFileName, options ) );
 		});
 
 		// Wait for all children to complete before resolving main promise

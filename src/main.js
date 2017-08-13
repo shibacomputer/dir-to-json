@@ -28,6 +28,7 @@ module.exports = function( path, options, callbackParam ){
 		return deferred.promise;
 	}
 
+	console.log(basePath)
 
 	createDirectoryObject( basePath, path, "", options )
 	.then(function( obj ){

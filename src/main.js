@@ -5,7 +5,6 @@ var createDirectoryObject = require("./createDirectoryObject");
 
 module.exports = function( path, options, callbackParam ){
 	var deferred = Q.defer();
-	var basePath = path;
 	callbackParam = callbackParam || function(){};
 
 	if( typeof options === "function" ){
@@ -28,9 +27,7 @@ module.exports = function( path, options, callbackParam ){
 		return deferred.promise;
 	}
 
-	console.log(basePath)
-
-	createDirectoryObject( basePath, path, "", options )
+	createDirectoryObject( path, "", options )
 	.then(function( obj ){
 		callback( null, obj );
 	})

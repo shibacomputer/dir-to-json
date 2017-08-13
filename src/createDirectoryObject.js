@@ -8,7 +8,7 @@ var hash = require('string-hash');
 
 var sortType = require('./options/sortType');
 
-var createDirectoryObject = function( base, rootDir, fileName, options ){
+var createDirectoryObject = function( rootDir, fileName, options ){
 
 	var deferred = Q.defer();
 
@@ -17,16 +17,15 @@ var createDirectoryObject = function( base, rootDir, fileName, options ){
 	options.sortType = typeof options.sortType !== "undefined" ? options.sortType : true;
 
 	var currentDir = path.normalize( rootDir + '/' + fileName );
-	console.log(rootDir, currentDir)
+
 	var fileInfo = {
-		id: hash(base, path.relative( "./" + rootDir, "./" + currentDir ) ),
+		id: hash(rootDir + '/' + currentDir),
 		parent: path.relative( rootDir, path.dirname( currentDir ) ),
 		path: path.relative( "./" + rootDir, "./" + currentDir ),
 		name: path.basename( currentDir ),
+		uri: path.normalize(currentDir),
 		mime: mime.lookup(mime.lookup(path.relative( "./" + rootDir, "./" + currentDir )))
 	};
-
-	console.log(base, path.relative( "./" + rootDir, "./" + currentDir ))
 
 	stat( currentDir )
 	.then( function( stats ){
@@ -50,7 +49,7 @@ var createDirectoryObject = function( base, rootDir, fileName, options ){
 		// Recursively examine directory's children
 		var promises = [];
 		files.forEach(function( newFileName ){
-			promises.push( createDirectoryObject( fileInfo.id, rootDir, fileName+'/'+newFileName, options ) );
+			promises.push( createDirectoryObject( rootDir, fileName+'/'+newFileName, options ) );
 		});
 
 		// Wait for all children to complete before resolving main promise

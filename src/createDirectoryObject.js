@@ -24,10 +24,9 @@ var createDirectoryObject = function( rootDir, fileName, options ){
 		path: path.relative( "./" + rootDir, "./" + currentDir ),
 		name: path.basename( currentDir ),
 		uri: path.normalize(currentDir),
-    mime: mime.getType(path.relative( "./" + rootDir, "./" + currentDir ))
+		mime: mime.lookup(mime.lookup(path.relative( "./" + rootDir, "./" + currentDir )))
 	};
 
-  console.log(fileInfo.mime)
 	stat( currentDir )
 	.then( function( stats ){
 
